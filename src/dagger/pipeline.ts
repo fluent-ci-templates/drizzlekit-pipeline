@@ -1,7 +1,7 @@
 import Client, { connect } from "@dagger.io/dagger";
 import * as jobs from "./jobs.ts";
 
-const { check, push, runnableJobs } = jobs;
+const { push, runnableJobs } = jobs;
 
 export default function pipeline(src = ".", args: string[] = []) {
   connect(async (client: Client) => {
@@ -10,7 +10,6 @@ export default function pipeline(src = ".", args: string[] = []) {
       return;
     }
 
-    await check(client, src);
     await push(client, src);
   });
 }

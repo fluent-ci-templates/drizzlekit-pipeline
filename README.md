@@ -38,7 +38,6 @@ dagger run fluentci .
 
 | Job       | Description               |
 | --------- | ------------------------- |
-| check     | Check database migrations |
 | push      | Apply schema changes      |
 
 ## Programmatic usage
@@ -49,11 +48,10 @@ You can also use this pipeline programmatically:
 import { Client, connect } from "https://esm.sh/@dagger.io/dagger@0.8.1";
 import { Dagger } from "https://pkg.fluentci.io/drizzlekit_pipeline/mod.ts";
 
-const { check } = Dagger;
+const { push } = Dagger;
 
 function pipeline(src = ".") {
   connect(async (client: Client) => {
-    await check(client, src);
     await push(client, src);
   });
 }
