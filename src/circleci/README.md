@@ -1,14 +1,14 @@
 # Circle CI
 
-[![fluentci pipeline](https://img.shields.io/badge/dynamic/json?label=pkg.fluentci.io&labelColor=%23000&color=%23460cf1&url=https%3A%2F%2Fapi.fluentci.io%2Fv1%2Fpipeline%2Fatlas_pipeline&query=%24.version)](https://pkg.fluentci.io/atlas_pipeline)
+[![fluentci pipeline](https://img.shields.io/badge/dynamic/json?label=pkg.fluentci.io&labelColor=%23000&color=%23460cf1&url=https%3A%2F%2Fapi.fluentci.io%2Fv1%2Fpipeline%2Fdrizzlekit_pipeline&query=%24.version)](https://pkg.fluentci.io/drizzlekit_pipeline)
 ![deno compatibility](https://shield.deno.dev/deno/^1.34)
-[![](https://img.shields.io/codecov/c/gh/fluent-ci-templates/atlas-pipeline)](https://codecov.io/gh/fluent-ci-templates/atlas-pipeline)
+[![](https://img.shields.io/codecov/c/gh/fluent-ci-templates/drizzlekit-pipeline)](https://codecov.io/gh/fluent-ci-templates/drizzlekit-pipeline)
 
 
 The following command will generate a `.circleci/config.yml` file in your project:
 
 ```bash
-fluentci cci init -t atlas_pipeline
+fluentci cci init -t drizzlekit_pipeline
 ```
 
 Generated file:
@@ -18,7 +18,7 @@ Generated file:
 
 version: 2.1
 jobs:
-  migrate:
+  apply:
     steps:
       - checkout
       - run: sudo apt-get update && sudo apt-get install -y curl unzip
@@ -33,13 +33,13 @@ jobs:
           dagger version
       - run:
           name: Run Dagger Pipelines
-          command: dagger run fluentci atlas_pipeline
+          command: dagger run fluentci drizzlekit_pipeline
     machine:
       image: ubuntu-2004:2023.07.1
 workflows:
   dagger:
     jobs:
-      - migrate
+      - apply
 
 ```
 
