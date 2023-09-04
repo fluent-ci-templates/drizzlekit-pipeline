@@ -13,7 +13,7 @@ phases:
       - dagger version
   build:
     commands:
-      - fluentci run atlas_pipeline
+      - fluentci run drizzlekit_pipeline
   post_build:
     commands:
       - echo Build completed on `date`

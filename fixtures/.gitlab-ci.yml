@@ -21,8 +21,8 @@
     - mv bin/dagger /usr/local/bin
     - dagger version
 
-migrate:
+apply:
   extends: .dagger
   script:
-    - fluentci run atlas_pipeline
+    - fluentci run drizzlekit_pipeline
 

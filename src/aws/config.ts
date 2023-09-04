@@ -15,7 +15,7 @@ export function generateYaml(): BuildSpec {
       ],
     })
     .phase("build", {
-      commands: ["fluentci run atlas_pipeline"],
+      commands: ["fluentci run drizzlekit_pipeline"],
     })
     .phase("post_build", {
       commands: ["echo Build completed on `date`"],

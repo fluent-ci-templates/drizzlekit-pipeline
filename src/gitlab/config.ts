@@ -23,12 +23,12 @@ export function generateYaml(): GitlabCI {
     `
   );
 
-  const migrate = new Job()
+  const apply = new Job()
     .extends(".dagger")
-    .script("fluentci run atlas_pipeline");
+    .script("fluentci run drizzlekit_pipeline");
 
   return new GitlabCI()
     .addJob(".docker", docker)
     .addJob(".dagger", dagger)
-    .addJob("migrate", migrate);
+    .addJob("apply", apply);
 }

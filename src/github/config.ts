@@ -1,7 +1,7 @@
 import { JobSpec, Workflow } from "fluent_github_actions";
 
 export function generateYaml(): Workflow {
-  const workflow = new Workflow("Atlas");
+  const workflow = new Workflow("DrizzleKit");
 
   const push = {
     branches: ["main"],
@@ -12,7 +12,7 @@ export function generateYaml(): Workflow {
   sudo mv bin/dagger /usr/local/bin
   dagger version`;
 
-  const migrate: JobSpec = {
+  const apply: JobSpec = {
     "runs-on": "ubuntu-latest",
     steps: [
       {
@@ -34,12 +34,12 @@ export function generateYaml(): Workflow {
       },
       {
         name: "Run Dagger Pipelines",
-        run: "fluentci run atlas_pipeline",
+        run: "fluentci run drizzlekit_pipeline",
       },
     ],
   };
 
-  workflow.on({ push }).jobs({ migrate });
+  workflow.on({ push }).jobs({ apply });
 
   return workflow;
 }

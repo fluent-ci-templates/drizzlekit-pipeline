@@ -18,5 +18,5 @@ steps:
         sudo mv bin/dagger /usr/local/bin
         dagger version
     displayName: Setup Dagger
-  - script: fluentci run atlas_pipeline
+  - script: fluentci run drizzlekit_pipeline
     displayName: Run Dagger Pipelines

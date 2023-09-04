@@ -3,7 +3,7 @@ import { CircleCI, Job } from "fluent_circleci";
 export function generateYaml(): CircleCI {
   const circleci = new CircleCI();
 
-  const migrate = new Job().machine({ image: "ubuntu-2004:2023.07.1" }).steps([
+  const apply = new Job().machine({ image: "ubuntu-2004:2023.07.1" }).steps([
     "checkout",
     {
       run: "sudo apt-get update && sudo apt-get install -y curl unzip",
@@ -26,12 +26,12 @@ dagger version`,
     {
       run: {
         name: "Run Dagger Pipelines",
-        command: "fluentci run atlas_pipeline",
+        command: "fluentci run drizzlekit_pipeline",
       },
     },
   ]);
 
-  circleci.jobs({ migrate }).workflow("dagger", ["migrate"]);
+  circleci.jobs({ apply }).workflow("dagger", ["apply"]);
 
   return circleci;
 }

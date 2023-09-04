@@ -91,5 +91,5 @@ export const runnableJobs: Record<Job, JobExec> = {
 
 export const jobDescriptions: Record<Job, string> = {
   [Job.check]: "Check database migrations",
-  [Job.push]: "Push database migrations",
+  [Job.push]: "Apply schema changes",
 };

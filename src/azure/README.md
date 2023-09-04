@@ -1,13 +1,13 @@
 # Azure Pipelines
 
-[![fluentci pipeline](https://img.shields.io/badge/dynamic/json?label=pkg.fluentci.io&labelColor=%23000&color=%23460cf1&url=https%3A%2F%2Fapi.fluentci.io%2Fv1%2Fpipeline%2Fatlas_pipeline&query=%24.version)](https://pkg.fluentci.io/atlas_pipeline)
+[![fluentci pipeline](https://img.shields.io/badge/dynamic/json?label=pkg.fluentci.io&labelColor=%23000&color=%23460cf1&url=https%3A%2F%2Fapi.fluentci.io%2Fv1%2Fpipeline%2Fdrizzlekit_pipeline&query=%24.version)](https://pkg.fluentci.io/drizzlekit_pipeline)
 ![deno compatibility](https://shield.deno.dev/deno/^1.34)
-[![](https://img.shields.io/codecov/c/gh/fluent-ci-templates/atlas-pipeline)](https://codecov.io/gh/fluent-ci-templates/atlas-pipeline)
+[![](https://img.shields.io/codecov/c/gh/fluent-ci-templates/drizzlekit-pipeline)](https://codecov.io/gh/fluent-ci-templates/drizzlekit-pipeline)
 
 The following command will generate a `azure-pipelines.yml` file in your project:
 
 ```bash
-fluentci ap init -t atlas_pipeline
+fluentci ap init -t drizzlekit_pipeline
 ```
 
 Generated file:
@@ -33,7 +33,7 @@ steps:
         sudo mv bin/dagger /usr/local/bin
         dagger version
     displayName: Setup Dagger
-  - script: fluentci run atlas_pipeline
+  - script: fluentci run drizzlekit_pipeline
     displayName: Run Dagger Pipelines
 
 ```
