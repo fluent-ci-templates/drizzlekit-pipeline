@@ -39,7 +39,7 @@ export const check = async (client: Client, src = ".") => {
     .withExec([
       "sh",
       "-c",
-      `eval "$(devbox global shellenv)" && drizzle-kit ${checkCommand()}`,
+      `eval "$(devbox global shellenv)" && bun x drizzle-kit ${checkCommand()}`,
     ]);
 
   const result = await ctr.stdout();
@@ -77,7 +77,7 @@ export const push = async (client: Client, src = ".") => {
     .withExec([
       "sh",
       "-c",
-      `eval "$(devbox global shellenv)" && drizzle-kit ${pushCommand()} --connectionString ${DATABASE_URL}`,
+      `eval "$(devbox global shellenv)" && bun x drizzle-kit ${pushCommand()} --connectionString ${DATABASE_URL}`,
     ]);
 
   const result = await ctr.stdout();
