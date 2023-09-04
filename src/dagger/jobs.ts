@@ -1,38 +1,13 @@
 import Client from "@dagger.io/dagger";
-import { checkCommand, pushCommand } from "./lib.ts";
+import { pushCommand } from "./lib.ts";
 
 export enum Job {
-  check = "check",
   push = "push",
 }
 
 const DATABASE_URL = Deno.env.get("DATABASE_URL");
 
 const exclude = [".git", "node_modules", ".fluentci"];
-
-export const check = async (client: Client, src = ".") => {
-  const context = client.host().directory(src);
-  const ctr = client
-    .pipeline(Job.check)
-    .container()
-    .from("ghcr.io/fluent-ci-templates/bun:latest")
-    .withMountedCache(
-      "/app/node_modules",
-      client.cacheVolume("drizzle_node_modules")
-    )
-    .withDirectory("/app", context, { exclude })
-    .withWorkdir("/app")
-    .withExec(["sh", "-c", 'eval "$(devbox global shellenv)" && bun install'])
-    .withExec([
-      "sh",
-      "-c",
-      `eval "$(devbox global shellenv)" && bun x drizzle-kit ${checkCommand()}`,
-    ]);
-
-  const result = await ctr.stdout();
-
-  console.log(result);
-};
 
 export const push = async (client: Client, src = ".") => {
   if (!DATABASE_URL) {
@@ -85,11 +60,9 @@ export type JobExec = (
     ) => Promise<void>);
 
 export const runnableJobs: Record<Job, JobExec> = {
-  [Job.check]: check,
   [Job.push]: push,
 };
 
 export const jobDescriptions: Record<Job, string> = {
-  [Job.check]: "Check database migrations",
   [Job.push]: "Apply schema changes",
 };
