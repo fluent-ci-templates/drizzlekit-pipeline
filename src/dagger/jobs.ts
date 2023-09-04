@@ -77,7 +77,7 @@ export const push = async (client: Client, src = ".") => {
     .withExec([
       "sh",
       "-c",
-      `eval "$(devbox global shellenv)" && bun x drizzle-kit ${pushCommand()} --connectionString ${DATABASE_URL}`,
+      `eval "$(devbox global shellenv)" && bun x drizzle-kit ${pushCommand()}`,
     ]);
 
   const result = await ctr.stdout();
