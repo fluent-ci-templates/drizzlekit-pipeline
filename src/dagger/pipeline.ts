@@ -1,16 +1,17 @@
 import Client, { connect } from "@dagger.io/dagger";
 import * as jobs from "./jobs.ts";
 
-const { migrate, runnableJobs } = jobs;
+const { check, push, runnableJobs } = jobs;
 
-export default function pipeline(_src = ".", args: string[] = []) {
+export default function pipeline(src = ".", args: string[] = []) {
   connect(async (client: Client) => {
     if (args.length > 0) {
       await runSpecificJobs(client, args as jobs.Job[]);
       return;
     }
 
-    await migrate(client);
+    await check(client, src);
+    await push(client, src);
   });
 }
 
