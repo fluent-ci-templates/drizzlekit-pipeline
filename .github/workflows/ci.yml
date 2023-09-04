@@ -22,7 +22,7 @@ jobs:
           dagger version
       - name: Run Dagger Pipelines
         run: fluentci run deno_pipeline
-      #- name: Upload to Codecov
-      #  run: fluentci run codecov_pipeline
-      #  env:
-      #    CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      - name: Upload to Codecov
+        run: fluentci run codecov_pipeline
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
