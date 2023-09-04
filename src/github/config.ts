@@ -35,6 +35,9 @@ export function generateYaml(): Workflow {
       {
         name: "Run Dagger Pipelines",
         run: "fluentci run drizzlekit_pipeline",
+        env: {
+          DATABASE_URL: "${{ secrets.DATABASE_URL }}",
+        },
       },
     ],
   };

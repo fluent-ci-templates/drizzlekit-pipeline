@@ -3,6 +3,11 @@ import { BuildSpec } from "fluent_aws_codepipeline";
 export function generateYaml(): BuildSpec {
   const buildspec = new BuildSpec();
   buildspec
+    .env({
+      "secrets-manager": {
+        DATABASE_URL: "drizzle:DATABASE_URL",
+      },
+    })
     .phase("install", {
       commands: [
         "curl -fsSL https://deno.land/x/install/install.sh | sh",

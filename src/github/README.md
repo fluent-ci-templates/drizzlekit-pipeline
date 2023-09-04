@@ -43,7 +43,8 @@ jobs:
             dagger version
       - name: Run Dagger Pipelines
         run: fluentci run drizzlekit_pipeline
-
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 ```
 
 Feel free to edit the template generator at `.fluentci/src/github/config.ts` to your needs.

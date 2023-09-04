@@ -32,7 +32,9 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
-
+env:
+  secrets-manager:
+    DATABASE_URL: drizzle:DATABASE_URL
 ```
 
 Feel free to edit the template generator at `.fluentci/src/aws/config.ts` to your needs.

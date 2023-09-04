@@ -17,3 +17,6 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
+env:
+  secrets-manager:
+    DATABASE_URL: drizzle:DATABASE_URL

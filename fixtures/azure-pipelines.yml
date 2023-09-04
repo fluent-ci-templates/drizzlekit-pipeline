@@ -20,3 +20,5 @@ steps:
     displayName: Setup Dagger
   - script: fluentci run drizzlekit_pipeline
     displayName: Run Dagger Pipelines
+variables:
+  DATABASE_URL: $(DATABASE_URL)

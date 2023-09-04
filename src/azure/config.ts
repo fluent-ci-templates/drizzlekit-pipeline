@@ -21,6 +21,9 @@ export function generateYaml(): AzurePipeline {
       name: "Default",
       vmImage: "ubuntu-latest",
     })
+    .variables({
+      DATABASE_URL: "$(DATABASE_URL)",
+    })
     .step({
       script: installDeno,
       displayName: "Install Deno",
