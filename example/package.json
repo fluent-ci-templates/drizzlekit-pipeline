@@ -1,0 +1,20 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "generate": "drizzle-kit generate:pg",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tsiry Sandratraina",
+  "license": "ISC",
+  "dependencies": {
+    "drizzle-orm": "^0.28.5",
+    "postgres": "^3.3.5"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.19.13",
+    "typescript": "^5.2.2"
+  }
+}
