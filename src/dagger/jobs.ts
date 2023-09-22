@@ -1,4 +1,4 @@
-import Client from "@fluentci.io/dagger";
+import Client from "../../deps.ts";
 import { pushCommand } from "./lib.ts";
 
 export enum Job {
