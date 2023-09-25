@@ -33,7 +33,7 @@ jobs:
           dagger version
       - run:
           name: Run Dagger Pipelines
-          command: dagger run fluentci drizzlekit_pipeline
+          command: fluentci run drizzlekit_pipeline
     machine:
       image: ubuntu-2004:2023.07.1
     environment:
