@@ -1,4 +1,4 @@
-import Client from "../../deps.ts";
+import { client } from "./dagger.ts";
 import { pushCommand } from "./lib.ts";
 
 export enum Job {
@@ -9,8 +9,8 @@ const DATABASE_URL = Deno.env.get("DATABASE_URL");
 
 export const exclude = [".git", "node_modules", ".fluentci"];
 
-export const push = async (client: Client, src = ".") => {
-  if (!DATABASE_URL) {
+export const push = async (src = ".", databaseUrl?: string) => {
+  if (!DATABASE_URL && !databaseUrl) {
     throw new Error("DATABASE_URL is not set");
   }
 
@@ -33,31 +33,31 @@ export const push = async (client: Client, src = ".") => {
     )
     .withDirectory("/app", context, { exclude })
     .withWorkdir("/app")
-    .withEnvVariable("DATABASE_URL", DATABASE_URL)
+    .withEnvVariable("DATABASE_URL", DATABASE_URL || databaseUrl!)
     .withExec(["sh", "-c", 'eval "$(devbox global shellenv)" && bun install'])
     .withExec([
       "sh",
       "-c",
-      `eval "$(devbox global shellenv)" && bun x drizzle-kit ${pushCommand()}`,
+      `eval "$(devbox global shellenv)" && bun x drizzle-kit ${pushCommand(
+        databaseUrl
+      )}`,
     ]);
 
   const result = await ctr.stdout();
 
   console.log(result);
+
+  return "All changes applied.";
 };
 
-export type JobExec = (
-  client: Client,
-  src?: string
-) =>
-  | Promise<void>
+export type JobExec = (src?: string) =>
+  | Promise<string>
   | ((
-      client: Client,
       src?: string,
       options?: {
         ignore: string[];
       }
-    ) => Promise<void>);
+    ) => Promise<string>);
 
 export const runnableJobs: Record<Job, JobExec> = {
   [Job.push]: push,

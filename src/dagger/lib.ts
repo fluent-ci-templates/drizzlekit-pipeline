@@ -1,5 +1,5 @@
-export const pushCommand = () => {
-  const DATABASE_URL = Deno.env.get("DATABASE_URL");
+export const pushCommand = (databaseUrl?: string) => {
+  const DATABASE_URL = Deno.env.get("DATABASE_URL") || databaseUrl;
 
   if (DATABASE_URL?.startsWith("postgres://")) {
     return "push:pg";
