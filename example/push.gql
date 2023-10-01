@@ -1,0 +1,8 @@
+{
+  drizzlekit {
+    push(
+      src: "."
+      databaseUrl: "postgres://postgres:pass@postgres:5432/example"
+    )
+  }
+}
