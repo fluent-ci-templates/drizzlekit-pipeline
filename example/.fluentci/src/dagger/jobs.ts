@@ -20,7 +20,8 @@ export const push = async (src = ".", databaseUrl?: string) => {
       .from("postgres:15-alpine")
       .withEnvVariable("POSTGRES_PASSWORD", "pass")
       .withEnvVariable("POSTGRES_DB", "example")
-      .withExposedPort(5432);
+      .withExposedPort(5432)
+      .asService();
 
     const context = client.host().directory(src);
     const ctr = client
