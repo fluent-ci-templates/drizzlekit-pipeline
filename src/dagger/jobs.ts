@@ -30,6 +30,8 @@ export const push = async (src = ".", databaseUrl?: string) => {
       .container()
       .from("ghcr.io/fluentci-io/pkgx:latest")
       .withExec(["pkgx", "install", "node@18", "bun"])
+      .withExec(["apt-get", "update"])
+      .withExec(["apt-get", "install", "-y", "libatomic1"])
       .withServiceBinding("postgres", postgres)
       .withMountedCache(
         "/app/node_modules",
