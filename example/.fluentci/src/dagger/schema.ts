@@ -14,11 +14,11 @@ const Query = queryType({
   definition(t) {
     t.string("push", {
       args: {
-        src: nonNull(stringArg()),
+        src: stringArg(),
         databaseUrl: nonNull(stringArg()),
       },
       resolve: async (_root, args, _ctx) =>
-        await push(args.src, args.databaseUrl),
+        await push(args.src || undefined, args.databaseUrl),
     });
   },
 });

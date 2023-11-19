@@ -3,5 +3,5 @@
 
 
 type Query {
-  push(databaseUrl: String!, src: String!): String
+  push(databaseUrl: String!, src: String): String
 }

@@ -57,7 +57,7 @@ export interface NexusGenArgTypes {
   Query: {
     push: { // args
       databaseUrl: string; // String!
-      src: string; // String!
+      src?: string | null; // String
     }
   }
 }
