@@ -28,7 +28,8 @@ export const push = async (src = ".", databaseUrl?: string) => {
     const ctr = client
       .pipeline(Job.push)
       .container()
-      .from("ghcr.io/fluent-ci-templates/bun:latest")
+      .from("ghcr.io/fluentci-io/pkgx:latest")
+      .withExec(["pkgx", "install", "node@18", "bun"])
       .withServiceBinding("postgres", postgres)
       .withMountedCache(
         "/app/node_modules",
@@ -37,14 +38,8 @@ export const push = async (src = ".", databaseUrl?: string) => {
       .withDirectory("/app", context, { exclude })
       .withWorkdir("/app")
       .withEnvVariable("DATABASE_URL", DATABASE_URL || databaseUrl!)
-      .withExec(["sh", "-c", 'eval "$(devbox global shellenv)" && bun install'])
-      .withExec([
-        "sh",
-        "-c",
-        `eval "$(devbox global shellenv)" && bun x drizzle-kit ${pushCommand(
-          databaseUrl
-        )}`,
-      ]);
+      .withExec(["bun", "install"])
+      .withExec(["bunx", "drizzle-kit", pushCommand(databaseUrl)]);
 
     const result = await ctr.stdout();
 
