@@ -41,7 +41,7 @@ fluentci run .
 | push      | Apply schema changes      |
 
 ```graphql
-push(databaseUrl: String!, src: String!): String
+push(databaseUrl: String!, src: String): String
 ```
 
 ## Programmatic usage
