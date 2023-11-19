@@ -1,3 +1,17 @@
+import Client, { Directory, DirectoryID } from "../../deps.ts";
+
+export const getDirectory = (
+  client: Client,
+  src: string | Directory | undefined = "."
+) => {
+  if (typeof src === "string" && src.startsWith("core.Directory")) {
+    return client.directory({
+      id: src as DirectoryID,
+    });
+  }
+  return src instanceof Directory ? src : client.host().directory(src);
+};
+
 export const pushCommand = (databaseUrl?: string) => {
   const DATABASE_URL = Deno.env.get("DATABASE_URL") || databaseUrl;
 

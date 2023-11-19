@@ -1,6 +1,6 @@
-import Client from "../../deps.ts";
+import Client, { Directory } from "../../deps.ts";
 import { connect } from "../../sdk/connect.ts";
-import { pushCommand } from "./lib.ts";
+import { pushCommand, getDirectory } from "./lib.ts";
 
 export enum Job {
   push = "push",
@@ -10,7 +10,10 @@ const DATABASE_URL = Deno.env.get("DATABASE_URL");
 
 export const exclude = [".git", "node_modules", ".fluentci"];
 
-export const push = async (src = ".", databaseUrl?: string) => {
+export const push = async (
+  src: string | Directory | undefined = ".",
+  databaseUrl?: string
+) => {
   if (!DATABASE_URL && !databaseUrl) {
     throw new Error("DATABASE_URL is not set");
   }
@@ -24,7 +27,7 @@ export const push = async (src = ".", databaseUrl?: string) => {
       .withExposedPort(5432)
       .asService();
 
-    const context = client.host().directory(src);
+    const context = getDirectory(client, src);
     const ctr = client
       .pipeline(Job.push)
       .container()
