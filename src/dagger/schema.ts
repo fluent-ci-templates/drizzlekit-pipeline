@@ -33,6 +33,7 @@ const schema = makeSchema({
 
 schema.description = JSON.stringify({
   "push.src": "directory",
+  "push.databaseUrl": "secret",
 });
 
 export { schema };

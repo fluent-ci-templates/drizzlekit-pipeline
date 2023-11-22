@@ -1,4 +1,9 @@
-import Client, { Directory, DirectoryID } from "../../deps.ts";
+import Client, {
+  Directory,
+  DirectoryID,
+  Secret,
+  SecretID,
+} from "../../deps.ts";
 
 export const getDirectory = (
   client: Client,
@@ -28,4 +33,20 @@ export const pushCommand = (databaseUrl?: string) => {
   }
 
   throw new Error("Unsupported database");
+};
+
+export const getDatabaseUrl = (client: Client, token?: string | Secret) => {
+  if (Deno.env.get("DATABASE_URL")) {
+    return client.setSecret("DATABASE_URL", Deno.env.get("DATABASE_URL")!);
+  }
+  if (token && typeof token === "string") {
+    if (token.startsWith("core.Secret")) {
+      return client.loadSecretFromID(token as SecretID);
+    }
+    return client.setSecret("DATABASE_URL", token);
+  }
+  if (token && token instanceof Secret) {
+    return token;
+  }
+  return undefined;
 };
