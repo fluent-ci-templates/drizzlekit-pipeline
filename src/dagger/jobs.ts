@@ -1,23 +1,17 @@
-import Client, { Directory } from "../../deps.ts";
+import Client, { Directory, Secret } from "../../deps.ts";
 import { connect } from "../../sdk/connect.ts";
-import { pushCommand, getDirectory } from "./lib.ts";
+import { pushCommand, getDirectory, getDatabaseUrl } from "./lib.ts";
 
 export enum Job {
   push = "push",
 }
 
-const DATABASE_URL = Deno.env.get("DATABASE_URL");
-
 export const exclude = [".git", "node_modules", ".fluentci"];
 
 export const push = async (
   src: string | Directory | undefined = ".",
-  databaseUrl?: string
+  databaseUrl?: string | Secret
 ) => {
-  if (!DATABASE_URL && !databaseUrl) {
-    throw new Error("DATABASE_URL is not set");
-  }
-
   await connect(async (client: Client) => {
     const postgres = client
       .container()
@@ -28,6 +22,12 @@ export const push = async (
       .asService();
 
     const context = getDirectory(client, src);
+    const secret = getDatabaseUrl(client, databaseUrl);
+    if (!secret) {
+      console.error("No database url provided");
+      Deno.exit(1);
+    }
+
     const ctr = client
       .pipeline(Job.push)
       .container()
@@ -42,9 +42,9 @@ export const push = async (
       )
       .withDirectory("/app", context, { exclude })
       .withWorkdir("/app")
-      .withEnvVariable("DATABASE_URL", DATABASE_URL || databaseUrl!)
+      .withSecretVariable("DATABASE_URL", secret)
       .withExec(["bun", "install"])
-      .withExec(["bunx", "drizzle-kit", pushCommand(databaseUrl)]);
+      .withExec(["bunx", "drizzle-kit", pushCommand(await secret.plaintext())]);
 
     const result = await ctr.stdout();
 
