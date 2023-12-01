@@ -8,10 +8,17 @@ export enum Job {
 
 export const exclude = [".git", "node_modules", ".fluentci"];
 
-export const push = async (
-  src: string | Directory | undefined = ".",
-  databaseUrl?: string | Secret
-) => {
+/**
+ * @function
+ * @description Apply schema changes
+ * @param {string | Directory} src
+ * @param {string | Secret} databaseUrl
+ * @returns {string}
+ */
+export async function push(
+  src: string | Directory,
+  databaseUrl: string | Secret
+): Promise<string> {
   await connect(async (client: Client) => {
     const postgres = client
       .container()
@@ -52,16 +59,12 @@ export const push = async (
   });
 
   return "All changes applied.";
-};
+}
 
-export type JobExec = (src?: string) =>
-  | Promise<string>
-  | ((
-      src?: string,
-      options?: {
-        ignore: string[];
-      }
-    ) => Promise<string>);
+export type JobExec = (
+  src: string | Directory,
+  databaseUrl: string | Secret
+) => Promise<string>;
 
 export const runnableJobs: Record<Job, JobExec> = {
   [Job.push]: push,
