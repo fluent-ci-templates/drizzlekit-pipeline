@@ -16,7 +16,7 @@ export const exclude = [".git", "node_modules", ".fluentci"];
  * @returns {string}
  */
 export async function push(
-  src: string | Directory,
+  src: string | Directory | undefined = ".",
   databaseUrl: string | Secret
 ): Promise<string> {
   await connect(async (client: Client) => {
@@ -62,7 +62,7 @@ export async function push(
 }
 
 export type JobExec = (
-  src: string | Directory,
+  src: string | Directory | undefined,
   databaseUrl: string | Secret
 ) => Promise<string>;
 
