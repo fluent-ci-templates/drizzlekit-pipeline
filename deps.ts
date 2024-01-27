@@ -1,7 +1,8 @@
 export { assertEquals } from "https://deno.land/std@0.191.0/testing/asserts.ts";
-import { Client } from "./sdk/client.gen.ts";
+import { Client, dag } from "./sdk/client.gen.ts";
 export default Client;
 
+export { dag };
 export type { DirectoryID, SecretID } from "./sdk/client.gen.ts";
 export { Directory, Secret } from "./sdk/client.gen.ts";
 export { connect, uploadContext } from "https://sdk.fluentci.io/v0.3.0/mod.ts";
