@@ -18,5 +18,7 @@ jobs:
           dagger version
       - name: Run Dagger Pipelines
         run: |
-          dagger query --doc push.gql
+          dagger call push --database-url DATABASE_URL
         working-directory: example
+        env:
+          DATABASE_URL: postgres://postgres:pass@postgres:5432/example
