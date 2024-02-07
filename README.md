@@ -41,6 +41,7 @@ dagger mod install github.com/fluent-ci-templates/drizzlekit-pipeline@mod
 | Variable         | Description                    |
 | ---------------- | ------------------------------ |
 | DATABASE_URL     | The database connection string |
+| TURSO_AUTH_TOKEN | The Turso Auth token, required if you are using Turso |
 
 ## Jobs
 
@@ -60,7 +61,7 @@ push(
 You can also use this pipeline programmatically:
 
 ```ts
-import { push } from "https://pkg.fluentci.io/drizzlekit_pipeline@v0.7.1/mod.ts";
+import { push } from "https://pkg.fluentci.io/drizzlekit_pipeline@v0.7.2/mod.ts";
 
 await push();
 
