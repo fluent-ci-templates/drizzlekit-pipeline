@@ -41,10 +41,6 @@ export async function push(
     .withExec(["pkgx", "install", "node@18", "bun"])
     .withExec(["apt-get", "update"])
     .withExec(["apt-get", "install", "-y", "libatomic1"])
-    .withMountedCache(
-      "/app/node_modules",
-      dag.cacheVolume("drizzle_node_modules")
-    )
     .withDirectory("/app", context, { exclude })
     .withWorkdir("/app")
     .withSecretVariable("DATABASE_URL", secret);
