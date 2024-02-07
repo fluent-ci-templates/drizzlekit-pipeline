@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Setup Dagger Zenith
         run: |
-          curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.9.7 sh
+          curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.9.8 sh
           sudo mv bin/dagger /usr/local/bin
           dagger version
       - name: Run Dagger Pipelines
@@ -22,3 +22,10 @@ jobs:
         working-directory: example
         env:
           DATABASE_URL: postgres://postgres:pass@postgres:5432/example
+      - name: Run Dagger Pipelines (Turso Example)
+        run: |
+          dagger call push --database-url DATABASE_URL --turso-auth-token TURSO_AUTH_TOKEN
+        working-directory: turso-example
+        env:
+          DATABASE_URL: libsql://regular-greymalkin-tsirysndr.turso.io
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
