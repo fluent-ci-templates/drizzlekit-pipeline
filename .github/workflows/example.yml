@@ -15,9 +15,15 @@ jobs:
         run: deno install -A -r https://cli.fluentci.io -n fluentci
       - name: Setup Dagger
         run: |
-          curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.9.7 sh
+          curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.9.8 sh
           sudo mv bin/dagger /usr/local/bin
           dagger version
+      - name: Run Dagger Pipelines (Turso Example)
+        run: dagger run deno run -A ../src/dagger/runner.ts
+        working-directory: turso-example
+        env:
+          DATABASE_URL: libsql://regular-greymalkin-tsirysndr.turso.io
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
       - name: Run Dagger Pipelines
         run: dagger run deno run -A ../src/dagger/runner.ts
         working-directory: example

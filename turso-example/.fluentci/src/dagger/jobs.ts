@@ -41,20 +41,13 @@ export async function push(
     .withExec(["pkgx", "install", "node@18", "bun"])
     .withExec(["apt-get", "update"])
     .withExec(["apt-get", "install", "-y", "libatomic1"])
+    .withMountedCache(
+      "/app/node_modules",
+      dag.cacheVolume("drizzle_node_modules")
+    )
     .withDirectory("/app", context, { exclude })
     .withWorkdir("/app")
     .withSecretVariable("DATABASE_URL", secret);
-
-  if ((await secret.plaintext()).startsWith("postgres://")) {
-    const postgres = dag
-      .container()
-      .from("postgres:15-alpine")
-      .withEnvVariable("POSTGRES_PASSWORD", "pass")
-      .withEnvVariable("POSTGRES_DB", "example")
-      .withExposedPort(5432)
-      .asService();
-    baseCtr = baseCtr.withServiceBinding("postgres", postgres);
-  }
 
   if (token) {
     baseCtr = baseCtr.withSecretVariable("TURSO_AUTH_TOKEN", token);
@@ -64,10 +57,8 @@ export async function push(
     .withExec(["bun", "install"])
     .withExec(["bunx", "drizzle-kit", pushCommand(await secret.plaintext())]);
 
-  const stdout = await ctr.stdout();
-  const stderr = await ctr.stderr();
-
-  return stdout + "\n" + stderr;
+  const result = await ctr.stdout();
+  return result;
 }
 
 export type JobExec = (
