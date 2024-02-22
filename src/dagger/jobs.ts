@@ -1,3 +1,8 @@
+/**
+ * @module drizzlekit
+ * @description This module provides a set of functions applying schema changes to a database using drizzlekit
+ */
+
 import { Directory, Secret, dag } from "../../deps.ts";
 import {
   pushCommand,
