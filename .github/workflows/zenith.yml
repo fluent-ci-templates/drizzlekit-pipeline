@@ -18,13 +18,13 @@ jobs:
           dagger version
       - name: Run Dagger Pipelines
         run: |
-          dagger call push --database-url DATABASE_URL
+          dagger call push --database-url env:DATABASE_URL --src .
         working-directory: example
         env:
           DATABASE_URL: postgres://postgres:pass@postgres:5432/example
       - name: Run Dagger Pipelines (Turso Example)
         run: |
-          dagger call push --database-url DATABASE_URL --turso-auth-token TURSO_AUTH_TOKEN
+          dagger call push --database-url env:DATABASE_URL --turso-auth-token TURSO_AUTH_TOKEN --src .
         working-directory: turso-example
         env:
           DATABASE_URL: libsql://regular-greymalkin-tsirysndr.turso.io
