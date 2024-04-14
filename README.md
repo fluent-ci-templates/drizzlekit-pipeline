@@ -4,8 +4,6 @@
 ![deno compatibility](https://shield.deno.dev/deno/^1.37)
 [![](https://img.shields.io/codecov/c/gh/fluent-ci-templates/drizzlekit-pipeline)](https://codecov.io/gh/fluent-ci-templates/drizzlekit-pipeline)
 
-[![CodeSee](https://codesee-docs.s3.amazonaws.com/badge.svg?)](https://app.codesee.io/maps/public/9ec25ad0-c5f9-11ee-b3d5-db051da2172a)
-
 A ready-to-use CI/CD Pipeline for managing your database migrations with [Drizzle Kit](https://orm.drizzle.team/kit-docs/overview)
 
 ## 🚀 Usage
