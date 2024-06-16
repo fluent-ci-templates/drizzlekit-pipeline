@@ -46,7 +46,7 @@ checksum = "514de17de45fdb8dc022b1a7975556c53c86f9f0aa5f534b98977b171857c2c9"
 
 [[package]]
 name = "drizzlekit"
-version = "0.8.0"
+version = "0.9.0"
 dependencies = [
  "extism-pdk",
  "fluentci-pdk",

@@ -12,6 +12,7 @@ pub fn push(args: String) -> FnResult<String> {
             "+nodejs.org@18.20.2",
             "bunx",
             "drizzle-kit",
+            "push",
             &args,
         ])?
         .stdout()?;
