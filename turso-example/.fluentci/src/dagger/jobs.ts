@@ -51,7 +51,7 @@ export async function push(
 
   const ctr = baseCtr
     .withExec(["bun", "install"])
-    .withExec(["bunx", "drizzle-kit", pushCommand(await secret.plaintext())]);
+    .withExec(["bunx", "drizzle-kit", "push"]);
 
   const result = await ctr.stdout();
   return result;
