@@ -34,7 +34,7 @@ fluentci run .
 Use as a [Dagger](https://dagger.io) module:
 
 ```bash
-dagger mod install github.com/fluent-ci-templates/drizzlekit-pipeline@mod
+dagger install github.com/fluent-ci-templates/drizzlekit-pipeline
 ```
 
 ## Environment variables
