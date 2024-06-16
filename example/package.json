@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "drizzle-orm": "0.31.2",
-    "postgres": "^3.3.5"
+    "postgres": "3.4.4"
   },
   "devDependencies": {
     "drizzle-kit": "0.22.7",
