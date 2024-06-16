@@ -1,5 +1,5 @@
 import { brightGreen, stringifyTree } from "../../deps.ts";
-import { runnableJobs, jobDescriptions, Job } from "./jobs.ts";
+import { runnableJobs, jobDescriptions, type Job } from "./jobs.ts";
 
 const tree = {
   name: brightGreen("drizzlekit_pipeline"),

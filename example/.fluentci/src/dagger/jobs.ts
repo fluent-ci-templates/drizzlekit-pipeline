@@ -1,5 +1,10 @@
-import { Directory, Secret, dag } from "../../deps.ts";
-import { pushCommand, getDirectory, getDatabaseUrl } from "./lib.ts";
+/**
+ * @module drizzlekit
+ * @description This module provides a set of functions applying schema changes to a database using drizzlekit
+ */
+
+import { type Directory, type Secret, dag, exit } from "../../deps.ts";
+import { getDirectory, getDatabaseUrl, getTursoAuthToken } from "./lib.ts";
 
 export enum Job {
   push = "push",
@@ -12,52 +17,63 @@ export const exclude = [".git", "node_modules", ".fluentci"];
  * @description Apply schema changes
  * @param {string | Directory} src
  * @param {string | Secret} databaseUrl
+ * @param {string | Secret} tursoAuthToken
  * @returns {string}
  */
 export async function push(
   src: string | Directory | undefined = ".",
-  databaseUrl: string | Secret
+  databaseUrl: string | Secret,
+  tursoAuthToken?: string | Secret
 ): Promise<string> {
-  const postgres = dag
-    .container()
-    .from("postgres:15-alpine")
-    .withEnvVariable("POSTGRES_PASSWORD", "pass")
-    .withEnvVariable("POSTGRES_DB", "example")
-    .withExposedPort(5432)
-    .asService();
-
   const context = await getDirectory(dag, src);
   const secret = await getDatabaseUrl(dag, databaseUrl);
   if (!secret) {
     console.error("No database url provided");
-    Deno.exit(1);
+    exit(1);
   }
 
-  const ctr = dag
+  const token = await getTursoAuthToken(dag, tursoAuthToken);
+
+  let baseCtr = dag
     .pipeline(Job.push)
     .container()
     .from("ghcr.io/fluentci-io/pkgx:latest")
     .withExec(["pkgx", "install", "node@18", "bun"])
     .withExec(["apt-get", "update"])
     .withExec(["apt-get", "install", "-y", "libatomic1"])
-    .withServiceBinding("postgres", postgres)
-    .withMountedCache(
-      "/app/node_modules",
-      dag.cacheVolume("drizzle_node_modules")
-    )
     .withDirectory("/app", context, { exclude })
     .withWorkdir("/app")
-    .withSecretVariable("DATABASE_URL", secret)
+    .withSecretVariable("DATABASE_URL", secret!);
+
+  if ((await secret!.plaintext()).startsWith("postgres://")) {
+    const postgres = dag
+      .container()
+      .from("postgres:15-alpine")
+      .withEnvVariable("POSTGRES_PASSWORD", "pass")
+      .withEnvVariable("POSTGRES_DB", "example")
+      .withExposedPort(5432)
+      .asService();
+    baseCtr = baseCtr.withServiceBinding("postgres", postgres);
+  }
+
+  if (token) {
+    baseCtr = baseCtr.withSecretVariable("TURSO_AUTH_TOKEN", token);
+  }
+
+  const ctr = baseCtr
     .withExec(["bun", "install"])
     .withExec(["bunx", "drizzle-kit", "push"]);
 
-  const result = await ctr.stdout();
-  return result;
+  const stdout = await ctr.stdout();
+  const stderr = await ctr.stderr();
+
+  return stdout + "\n" + stderr;
 }
 
 export type JobExec = (
   src: string | Directory | undefined,
-  databaseUrl: string | Secret
+  databaseUrl: string | Secret,
+  tursoAuthToken?: string | Secret
 ) => Promise<string>;
 
 export const runnableJobs: Record<Job, JobExec> = {

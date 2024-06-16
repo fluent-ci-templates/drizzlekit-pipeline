@@ -3,13 +3,8 @@
  * @description This module provides a set of functions applying schema changes to a database using drizzlekit
  */
 
-import { Directory, Secret, dag } from "../../deps.ts";
-import {
-  pushCommand,
-  getDirectory,
-  getDatabaseUrl,
-  getTursoAuthToken,
-} from "./lib.ts";
+import { type Directory, type Secret, dag, exit } from "../../deps.ts";
+import { getDirectory, getDatabaseUrl, getTursoAuthToken } from "./lib.ts";
 
 export enum Job {
   push = "push",
@@ -34,7 +29,7 @@ export async function push(
   const secret = await getDatabaseUrl(dag, databaseUrl);
   if (!secret) {
     console.error("No database url provided");
-    Deno.exit(1);
+    exit(1);
   }
 
   const token = await getTursoAuthToken(dag, tursoAuthToken);
@@ -48,9 +43,9 @@ export async function push(
     .withExec(["apt-get", "install", "-y", "libatomic1"])
     .withDirectory("/app", context, { exclude })
     .withWorkdir("/app")
-    .withSecretVariable("DATABASE_URL", secret);
+    .withSecretVariable("DATABASE_URL", secret!);
 
-  if ((await secret.plaintext()).startsWith("postgres://")) {
+  if ((await secret!.plaintext()).startsWith("postgres://")) {
     const postgres = dag
       .container()
       .from("postgres:15-alpine")

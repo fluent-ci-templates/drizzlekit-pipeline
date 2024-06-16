@@ -1,7 +1,7 @@
-import { GitlabCI, Job } from "fluent_gitlab_ci";
+import { FluentGitlabCI } from "../../deps.ts";
 
-export function generateYaml(): GitlabCI {
-  const docker = new Job()
+export function generateYaml(): FluentGitlabCI.GitlabCI {
+  const docker = new FluentGitlabCI.Job()
     .image("denoland/deno:alpine")
     .services(["docker:${DOCKER_VERSION}-dind"])
     .variables({
@@ -13,7 +13,7 @@ export function generateYaml(): GitlabCI {
       DOCKER_VERSION: "20.10.16",
     });
 
-  const dagger = new Job().extends(".docker").beforeScript(
+  const dagger = new FluentGitlabCI.Job().extends(".docker").beforeScript(
     `
     apk add docker-cli curl unzip
     deno install -A -r https://cli.fluentci.io -n fluentci
@@ -23,11 +23,11 @@ export function generateYaml(): GitlabCI {
     `
   );
 
-  const apply = new Job()
+  const apply = new FluentGitlabCI.Job()
     .extends(".dagger")
     .script("fluentci run drizzlekit_pipeline");
 
-  return new GitlabCI()
+  return new FluentGitlabCI.GitlabCI()
     .addJob(".docker", docker)
     .addJob(".dagger", dagger)
     .addJob("apply", apply);

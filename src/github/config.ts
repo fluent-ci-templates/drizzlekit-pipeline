@@ -1,13 +1,13 @@
-import { JobSpec, Workflow } from "fluent_github_actions";
+import { FluentGithubActions } from "../../deps.ts";
 
-export function generateYaml(): Workflow {
-  const workflow = new Workflow("DrizzleKit");
+export function generateYaml(): FluentGithubActions.Workflow {
+  const workflow = new FluentGithubActions.Workflow("DrizzleKit");
 
   const push = {
     branches: ["main"],
   };
 
-  const apply: JobSpec = {
+  const apply: FluentGithubActions.JobSpec = {
     "runs-on": "ubuntu-latest",
     steps: [
       {

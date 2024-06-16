@@ -1,7 +1,7 @@
-import { BuildSpec } from "fluent_aws_codepipeline";
+import { FluentAWSCodePipeline } from "../../deps.ts";
 
-export function generateYaml(): BuildSpec {
-  const buildspec = new BuildSpec();
+export function generateYaml(): FluentAWSCodePipeline.BuildSpec {
+  const buildspec = new FluentAWSCodePipeline.BuildSpec();
   buildspec
     .env({
       "secrets-manager": {

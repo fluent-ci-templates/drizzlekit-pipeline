@@ -1,3 +1,4 @@
+import { env } from "../../deps.ts";
 import * as jobs from "./jobs.ts";
 
 const { push, runnableJobs } = jobs;
@@ -8,11 +9,7 @@ export default async function pipeline(src = ".", args: string[] = []) {
     return;
   }
 
-  await push(
-    src,
-    Deno.env.get("DATABASE_URL")!,
-    Deno.env.get("TURSO_AUTH_TOKEN")
-  );
+  await push(src, env.get("DATABASE_URL")!, env.get("TURSO_AUTH_TOKEN"));
 }
 
 async function runSpecificJobs(args: jobs.Job[]) {
@@ -21,10 +18,6 @@ async function runSpecificJobs(args: jobs.Job[]) {
     if (!job) {
       throw new Error(`Job ${name} not found`);
     }
-    await job(
-      ".",
-      Deno.env.get("DATABASE_URL")!,
-      Deno.env.get("TURSO_AUTH_TOKEN")
-    );
+    await job(".", env.get("DATABASE_URL")!, env.get("TURSO_AUTH_TOKEN"));
   }
 }

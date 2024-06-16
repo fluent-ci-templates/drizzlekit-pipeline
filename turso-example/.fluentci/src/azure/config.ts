@@ -1,7 +1,7 @@
-import { AzurePipeline } from "fluent_azure_pipelines";
+import { FluentAzurePipelines } from "../../deps.ts";
 
-export function generateYaml(): AzurePipeline {
-  const azurePipeline = new AzurePipeline();
+export function generateYaml(): FluentAzurePipelines.AzurePipeline {
+  const azurePipeline = new FluentAzurePipelines.AzurePipeline();
 
   const installDeno = `\
   curl -fsSL https://deno.land/x/install/install.sh | sh

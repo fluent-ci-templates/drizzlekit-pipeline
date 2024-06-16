@@ -2,6 +2,7 @@
 
 [![fluentci pipeline](https://img.shields.io/badge/dynamic/json?label=pkg.fluentci.io&labelColor=%23000&color=%23460cf1&url=https%3A%2F%2Fapi.fluentci.io%2Fv1%2Fpipeline%2Fdrizzlekit_pipeline&query=%24.version)](https://pkg.fluentci.io/drizzlekit_pipeline)
 ![deno compatibility](https://shield.deno.dev/deno/^1.37)
+[![](https://jsr.io/badges/@fluentci/drizzlekit)](https://jsr.io/@fluentci/drizzlekit)
 [![](https://img.shields.io/codecov/c/gh/fluent-ci-templates/drizzlekit-pipeline)](https://codecov.io/gh/fluent-ci-templates/drizzlekit-pipeline)
 
 A ready-to-use CI/CD Pipeline for managing your database migrations with [Drizzle Kit](https://orm.drizzle.team/kit-docs/overview)
@@ -61,7 +62,7 @@ push(
 You can also use this pipeline programmatically:
 
 ```ts
-import { push } from "https://pkg.fluentci.io/drizzlekit_pipeline@v0.7.3/mod.ts";
+import { push } from "jsr:@fluentci/drizzlekit";
 
 await push();
 

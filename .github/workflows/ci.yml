@@ -23,3 +23,16 @@ jobs:
         run: fluentci run --wasm codecov upload
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+  publish:
+    needs: tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.41
+      - name: Publish package
+        run: deno publish --allow-slow-types
