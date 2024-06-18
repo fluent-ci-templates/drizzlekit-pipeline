@@ -1,7 +1,8 @@
 # Drizzlekit Pipeline
 
-[![fluentci pipeline](https://img.shields.io/badge/dynamic/json?label=pkg.fluentci.io&labelColor=%23000&color=%23460cf1&url=https%3A%2F%2Fapi.fluentci.io%2Fv1%2Fpipeline%2Fdrizzlekit_pipeline&query=%24.version)](https://pkg.fluentci.io/drizzlekit_pipeline)
-![deno compatibility](https://shield.deno.dev/deno/^1.37)
+[![fluentci pipeline](https://shield.fluentci.io/x/drizzlekit_pipeline)](https://pkg.fluentci.io/drizzlekit_pipeline)
+![deno compatibility](https://shield.deno.dev/deno/^1.41)
+[![dagger-min-version](https://shield.fluentci.io/dagger/v0.11.7)](https://dagger.io)
 [![](https://jsr.io/badges/@fluentci/drizzlekit)](https://jsr.io/@fluentci/drizzlekit)
 [![](https://img.shields.io/codecov/c/gh/fluent-ci-templates/drizzlekit-pipeline)](https://codecov.io/gh/fluent-ci-templates/drizzlekit-pipeline)
 
